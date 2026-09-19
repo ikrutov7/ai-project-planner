@@ -1,0 +1,144 @@
+.wrap {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  overflow: auto;
+  flex: 1;
+  border-radius: 2px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 120px),
+    var(--panel);
+  box-shadow: inset 0 0 0 1px var(--stroke);
+}
+
+.grid {
+  display: flex;
+  min-height: 100%;
+}
+
+.labelCol {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--panel-elevated);
+  box-shadow: 4px 0 18px rgba(8, 16, 28, 0.18);
+}
+
+.headCell {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--stroke);
+}
+
+.labelRow {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  padding: 0 14px;
+  border: 0;
+  border-bottom: 1px solid var(--stroke-soft);
+  background: transparent;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.labelRow:hover {
+  background: rgba(255, 196, 84, 0.08);
+}
+
+.selected {
+  background: rgba(255, 196, 84, 0.14);
+}
+
+.taskName {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chartCol {
+  position: relative;
+}
+
+.timeline {
+  position: relative;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-left: 1px dashed var(--stroke-soft);
+  padding-left: 6px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.svg {
+  display: block;
+}
+
+.gridLine {
+  stroke: var(--stroke-soft);
+  stroke-width: 1;
+}
+
+.dep {
+  stroke: var(--accent-dim);
+  stroke-width: 1.5;
+  opacity: 0.7;
+}
+
+.bar {
+  opacity: 0.92;
+}
+
+.barSelected {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.barText {
+  fill: #f7f4ec;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+.barGroup:hover .bar {
+  filter: brightness(1.12);
+}
+
+.empty {
+  padding: 40px;
+  color: var(--muted);
+}

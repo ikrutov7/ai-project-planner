@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --text: #eef2f7;
+  --muted: #93a0b4;
+  --panel: #121a27;
+  --panel-elevated: #162033;
+  --stroke: rgba(238, 242, 247, 0.12);
+  --stroke-soft: rgba(238, 242, 247, 0.06);
+  --accent: #ffc454;
+  --accent-dim: #c9a35a;
+  --bar-muted: #4b5a6f;
+}
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--text);
+  background-color: #0b121c;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+p {
+  font-family: inherit;
+}

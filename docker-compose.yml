@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      PLANNER_DATABASE_URL: sqlite:////data/planner.db
+      PLANNER_CORS_ORIGINS: "*"
+      PLANNER_SERVE_FRONTEND: "true"
+      PLANNER_AGENT_DEMO_MODE: "true"
+      # Optional LLM:
+      # PLANNER_LLM_API_KEY: sk-...
+      # LLM_API_KEY: sk-...
+      # LLM_MODEL: gpt-4o-mini
+    volumes:
+      - planner-data:/data
+    restart: unless-stopped
+
+volumes:
+  planner-data:
