@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ai-project-planner
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: PLANNER_CORS_ORIGINS
+        value: "*"
+      - key: PLANNER_SERVE_FRONTEND
+        value: "true"
+      - key: PLANNER_AGENT_DEMO_MODE
+        value: "true"
+      - key: PLANNER_DATABASE_URL
+        value: sqlite:////data/planner.db
+    disk:
+      name: planner-data
+      mountPath: /data
+      sizeGB: 1

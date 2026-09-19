@@ -2,7 +2,8 @@
 
 AI-native планировщик проектов: интерактивный Gantt, Excel import/export и чат, который массово меняет план через MCP tools.
 
-**Live demo:** см. раздел [Deploy](#deploy) ниже (после публикации).  
+**GitHub:** https://github.com/ikrutov7/ai-project-planner  
+**Live demo:** https://wood-sacramento-transaction-figures.trycloudflare.com *(Cloudflare Tunnel → локальный Docker/API; для постоянного хостинга см. [Deploy](#deploy))*  
 **Sample Excel:** [`examples/sample-plan.xlsx`](examples/sample-plan.xlsx)  
 **Demo walkthrough:** [`docs/demo.gif`](docs/demo.gif) · [`docs/demo-script.md`](docs/demo-script.md)  
 **Production backlog:** [`docs/ROADMAP_TO_PRODUCTION.md`](docs/ROADMAP_TO_PRODUCTION.md)  
@@ -108,23 +109,34 @@ make frontend-build
 
 ## Deploy
 
-Рекомендуемый путь: один Docker-образ (этот репозиторий, `Dockerfile` в корне) на **Render**, **Fly.io** или VM.
+Рекомендуемый путь: один Docker-образ (`Dockerfile` в корне) на **Render**, **Fly.io** или VM. В репозитории уже есть `render.yaml` и `fly.toml`.
 
-### Render (Web Service)
+### Live demo (сейчас)
 
-1. New → Web Service → подключить репозиторий
-2. Runtime: Docker
-3. Dockerfile path: `./Dockerfile`
-4. Port: `8000`
-5. Disk (optional): mount `/data` для SQLite
-6. Env: `PLANNER_CORS_ORIGINS=*`, опционально `LLM_API_KEY`
+Публичный URL через Cloudflare Tunnel к однопроцессному приложению (UI + API на `:8000`):
+
+**https://wood-sacramento-transaction-figures.trycloudflare.com**
+
+Поднятие того же туннеля локально:
+
+```bash
+docker compose up --build
+# или: make static && make backend-run
+cloudflared tunnel --url http://127.0.0.1:8000
+```
+
+### Render (постоянный хостинг)
+
+1. [Deploy Blueprint](https://dashboard.render.com/blueprint/new?repo=https://github.com/ikrutov7/ai-project-planner) → подключить GitHub
+2. Или: New → Web Service → этот репозиторий → Runtime **Docker**, port `8000`
+3. Disk (optional): mount `/data` для SQLite
+4. Env: `PLANNER_CORS_ORIGINS=*`, опционально `LLM_API_KEY` / `PLANNER_LLM_API_KEY`
 
 ### Fly.io
 
 ```bash
-fly launch --dockerfile Dockerfile
-fly volumes create planner_data --size 1
-# привязать volume к /data в fly.toml
+fly auth login
+fly volumes create planner_data --size 1 -a ai-project-planner-ikrutov
 fly deploy
 ```
 

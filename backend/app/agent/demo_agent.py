@@ -114,16 +114,25 @@ def run_demo_agent(mcp: MCPServer, user_message: str) -> tuple[str, list[dict[st
 
     # add / создай задачу
     create_match = re.search(
-        r"(?:создай|добавь|create|add)\s+(?:задач[уи]\s+)?[«\"]?(.+?)[»\"]?"
-        r"(?:\s+(?:на|for)\s+(\d+)\s*(?:дн|day))?",
+        r"(?:создай|добавь|create|add)\s+(?:задач[уи]\s+)?(.+)$",
         text,
         re.IGNORECASE,
     )
     if create_match and ("задач" in lower or "task" in lower or "создай" in lower or "добавь" in lower):
-        name = create_match.group(1).strip().rstrip(".")
-        # clean trailing duration phrases
-        name = re.sub(r"\s+на\s+\d+\s*дн.*$", "", name, flags=re.IGNORECASE).strip()
-        duration = int(create_match.group(2)) if create_match.group(2) else 3
+        raw_name = create_match.group(1).strip().rstrip(".")
+        duration = 3
+        dur_tail = re.search(
+            r"\s+(?:на|for)\s+(\d+)\s*(?:дн(?:я|ей)?|days?)\s*$",
+            raw_name,
+            re.IGNORECASE,
+        )
+        if dur_tail:
+            duration = int(dur_tail.group(1))
+            raw_name = raw_name[: dur_tail.start()]
+        name = raw_name.strip().strip("«»\"'").strip()
+        name = re.sub(r"\s+(?:на|for)\s+\d+\s*(?:дн(?:я|ей)?|days?).*$", "", name, flags=re.IGNORECASE).strip()
+        if not name:
+            return "Укажите имя новой задачи, например: «Создай задачу QA Pass на 2 дня».", trace
         result = call(
             "create_task",
             {"name": name, "description": "Created via chat", "duration_days": duration},

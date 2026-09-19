@@ -80,6 +80,20 @@ def test_chat_demo_agent(client, db_session):
     assert body["plan"]["version"] >= 1
 
 
+def test_chat_demo_create_task_parses_name_and_duration(client, db_session):
+    seed_demo_plan(db_session, force=True)
+    db_session.commit()
+    resp = client.post("/api/chat", json={"message": "Создай задачу QA Pass на 2 дня"})
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["mode"] == "demo"
+    names = {t["name"] for t in body["plan"]["tasks"]}
+    assert "QA Pass" in names
+    created = next(t for t in body["plan"]["tasks"] if t["name"] == "QA Pass")
+    assert created["duration"] == 2
+    assert "QA Pass" in body["message"]["content"]
+
+
 def test_plan_endpoint(client, db_session):
     seed_demo_plan(db_session, force=True)
     db_session.commit()
