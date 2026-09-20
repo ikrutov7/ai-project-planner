@@ -252,7 +252,7 @@ LLM не отвечает за ацикличность — только domain.
 
 ## 9. Тестирование MCP tools
 
-См. также `implementation-plan.md`.
+См. также [architecture.md](./architecture.md).
 
 - Unit: каждый tool — валидный input → ожидаемая мутация; invalid input → `INVALID_INPUT`.
 - Cycle cases на `set_dependencies`.

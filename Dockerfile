@@ -1,4 +1,4 @@
-# Multi-stage: build React UI, serve via FastAPI
+# Multi-stage: React UI + FastAPI, sample Excel baked in, seed on first boot.
 FROM node:20-alpine AS frontend-build
 WORKDIR /frontend
 COPY frontend/package.json frontend/package-lock.json ./
@@ -13,17 +13,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PLANNER_DATABASE_URL=sqlite:////data/planner.db \
     PLANNER_SERVE_FRONTEND=true \
-    PLANNER_CORS_ORIGINS=*
+    PLANNER_CORS_ORIGINS=* \
+    PLANNER_AGENT_DEMO_MODE=true
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
   && rm -rf /var/lib/apt/lists/* \
   && mkdir -p /data
 
-COPY backend/pyproject.toml backend/README.md ./
+COPY backend/pyproject.toml ./
 COPY backend/app ./app
 COPY backend/alembic.ini ./
 COPY backend/alembic ./alembic
 COPY --from=frontend-build /frontend/dist ./static
+
+# Sample Excel for reviewers (also available via Export in UI)
+RUN mkdir -p ./static/examples
+COPY examples/sample-plan.xlsx ./static/examples/sample-plan.xlsx
 
 RUN pip install --no-cache-dir -U pip && pip install --no-cache-dir -e .
 

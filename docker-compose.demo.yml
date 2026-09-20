@@ -1,8 +1,8 @@
-# Dev/single-container run (same image as platform demo).
-# Prefer: make demo-up  (uses docker-compose.demo.yml)
+# Platform demo: single container with UI + API + seed-on-boot + sample Excel.
+# Usage: make demo-up
 
 services:
-  app:
+  demo:
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,13 +14,19 @@ services:
       PLANNER_CORS_ORIGINS: "*"
       PLANNER_SERVE_FRONTEND: "true"
       PLANNER_AGENT_DEMO_MODE: "true"
-      # Optional LLM:
+      # Optional LLM for real agent (otherwise demo heuristic agent):
       # PLANNER_LLM_API_KEY: sk-...
       # LLM_API_KEY: sk-...
       # LLM_MODEL: gpt-4o-mini
     volumes:
-      - planner-data:/data
+      - planner-demo-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
     restart: unless-stopped
 
 volumes:
-  planner-data:
+  planner-demo-data:

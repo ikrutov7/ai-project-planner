@@ -83,7 +83,7 @@ AI-native планировщик проектов с интерактивной 
 3. **`features/gantt/`** — адаптер Plan → Gantt rows/bars, handlers move/resize (через REST).
 4. **`features/chat/`** — messages list, input, streaming optional (MVP: request/response).
 5. **`features/task-modal/`** — detail view + edit form.
-6. **`features/excel/`** — file pickers для import/export.
+6. **Import/Export Excel** — кнопки в `AppShell` (multipart + download blob).
 
 ### State strategy
 
@@ -162,7 +162,8 @@ PlanRepository
 │   ├── data-model.md
 │   ├── api.md
 │   ├── mcp-tools.md
-│   └── implementation-plan.md
+│   ├── AI_ASSISTANTS.md
+│   └── ROADMAP_TO_PRODUCTION.md
 ├── backend/
 │   ├── pyproject.toml
 │   ├── app/
@@ -258,7 +259,7 @@ Frontend применяет `plan` из ответа → Gantt обновляе�
 
 ## 10. Deployment (MVP)
 
-См. также этап deployment в `implementation-plan.md`.
+См. `Makefile` (`demo-up` / `demo-deploy-*`) и корневой `Dockerfile`.
 
 - Backend: `uvicorn app.main:app`
 - Frontend: static build, раздаётся nginx или FastAPI `StaticFiles`
@@ -280,7 +281,8 @@ Frontend применяет `plan` из ответа → Gantt обновляе�
 - [data-model.md](./data-model.md)
 - [api.md](./api.md)
 - [mcp-tools.md](./mcp-tools.md)
-- [implementation-plan.md](./implementation-plan.md)
+- [ROADMAP_TO_PRODUCTION.md](./ROADMAP_TO_PRODUCTION.md)
+- [AI_ASSISTANTS.md](./AI_ASSISTANTS.md)
 
 ## 13. Архитектурные решения и trade-offs
 
