@@ -37,9 +37,8 @@ help:
 	@echo "  make demo-up          - http://localhost:8000  (+ /examples/sample-plan.xlsx)"
 	@echo "  make demo-down        - stop demo containers"
 	@echo "  make demo-logs        - follow demo logs"
-	@echo "  make demo-tunnel      - Cloudflare quick tunnel → :8000"
-	@echo "  make demo-deploy-fly  - fly deploy (fly auth login first)"
-	@echo "  make demo-deploy-render - open Render Blueprint deploy URL"
+	@echo "  make demo-deploy-render - redeploy the live Render service"
+	@echo "  make demo-deploy-fly  - fly deploy (needs a Fly card on the account)"
 	@echo ""
 
 # ── deps ─────────────────────────────────────────────────────────────
@@ -154,7 +153,7 @@ demo-deploy-fly: demo-package
 	@echo "Deploying to Fly (see fly.toml)…"
 	cd $(ROOT) && (command -v fly >/dev/null && fly deploy || flyctl deploy)
 
-demo-deploy-render: demo-package
-	@echo "Open Render Blueprint (login with GitHub), then Apply:"
-	@echo "  https://dashboard.render.com/blueprint/new?repo=https://github.com/ikrutov7/ai-project-planner"
-	@command -v open >/dev/null && open "https://dashboard.render.com/blueprint/new?repo=https://github.com/ikrutov7/ai-project-planner" || true
+demo-deploy-render:
+	@echo "Live: https://ai-project-planner-x5da.onrender.com"
+	@echo "Dashboard: https://dashboard.render.com/web/srv-dapv2had0e5s73ahbkkg"
+	@command -v render >/dev/null && render deploys create srv-dapv2had0e5s73ahbkkg --confirm -o text || true
